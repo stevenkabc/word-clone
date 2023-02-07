@@ -1,11 +1,15 @@
 import React from "react";
 import GuessList from "../GuessList"
+import {NUM_OF_GUESSES_ALLOWED} from '../../constants'
 
 
 function GuessInput() {
   
   const [guess, setGuess] = React.useState('');
-  const [guessList, setGuessList] = React.useState([])
+  const [guessCount,setGuessCount] = React.useState(0)
+  const [guessList, setGuessList] = React.useState((() => {
+     return Array(6).fill("     ")
+  }))
 
   function submitHandler(event) {
     event.preventDefault();
@@ -14,9 +18,16 @@ function GuessInput() {
       window.alert('Enter exactly 5 characters')
       return
     }
+
+    if(guessCount === NUM_OF_GUESSES_ALLOWED ) {
+      window.alert("Maximum guesses already entered")
+      return
+    }
     console.log({guess});
-    const newGuessList = [...guessList,guess]
+    const newGuessList = [...guessList]
+    newGuessList[guessCount] = guess
     setGuessList(newGuessList)
+    setGuessCount(guessCount + 1)
     console.log(newGuessList)
     setGuess('');
 
@@ -40,6 +51,7 @@ function GuessInput() {
           minLength={5}
           maxLength={5}
           onChange={(event) => { 
+            if( guessCount === 6) return;
             const newGuess=event.target.value.toUpperCase()
             setGuess(newGuess)
           }}

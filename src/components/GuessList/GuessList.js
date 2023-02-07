@@ -3,14 +3,21 @@ import React from "react";
 function GuessList({guessList}) {
   return (
       <div className="guess-results">
-        {
+        { 
           guessList.map(guess => {
             return (
-            <p 
-              key={crypto.randomUUID()} 
-              className="guess"
+            <p className="guess"
+              key={crypto.randomUUID()}              
             >
-             {guess}
+             {Array.from(guess).map((cell) => {
+              return (
+                <span className="cell">
+                  {cell}
+                </span>
+              )
+             })
+             
+             }
             </p>
           )})
         }
