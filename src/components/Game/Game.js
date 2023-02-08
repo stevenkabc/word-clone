@@ -9,8 +9,9 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
-  console.info("In Game")
-  return <><GuessInput /></>;
+  
+  return ( <><GuessInput answer={answer} /></>)
+
 }
 
 export default Game;

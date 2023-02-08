@@ -1,15 +1,24 @@
 import React from "react";
 import GuessList from "../GuessList"
 import {NUM_OF_GUESSES_ALLOWED} from '../../constants'
+import {checkGuess} from "../../game-helpers"
 
 
-function GuessInput() {
+function GuessInput({answer}) {
   
   const [guess, setGuess] = React.useState('');
   const [guessCount,setGuessCount] = React.useState(0)
   const [guessList, setGuessList] = React.useState((() => {
-     return Array(6).fill("     ")
+     return Array(6).fill([
+    { letter: ' ', status: '' },
+    { letter: ' ', status: '' },
+    { letter: ' ', status: '' },
+    { letter: ' ', status: '' },
+    { letter: ' ', status: '' },
+  ])
   }))
+
+
 
   function submitHandler(event) {
     event.preventDefault();
@@ -23,9 +32,12 @@ function GuessInput() {
       window.alert("Maximum guesses already entered")
       return
     }
-    console.log({guess});
+    // debugger;
+    console.log(guess);
+    const checkedGuess = checkGuess(guess,answer)
+
     const newGuessList = [...guessList]
-    newGuessList[guessCount] = guess
+    newGuessList[guessCount] = checkedGuess
     setGuessList(newGuessList)
     setGuessCount(guessCount + 1)
     console.log(newGuessList)

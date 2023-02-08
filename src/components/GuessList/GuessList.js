@@ -1,18 +1,18 @@
 import React from "react";
 
-function GuessList({guessList}) {
+function GuessList({guessList, answer}) {
   return (
       <div className="guess-results">
         { 
-          guessList.map(guess => {
+          guessList.map(guessResult => {
             return (
             <p className="guess"
               key={crypto.randomUUID()}              
             >
-             {Array.from(guess).map((cell) => {
+             {guessResult.map((g) => {
               return (
-                <span className="cell">
-                  {cell}
+                <span key={crypto.randomUUID()} className={`cell ${g.status}`}>
+                  {g.letter}
                 </span>
               )
              })
