@@ -9,8 +9,18 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
-  
-  return ( <><GuessInput answer={answer} /></>)
+  const [gameStatus, setGameStatus] = React.useState('')
+  return ( 
+  <>
+    <GuessInput answer={answer} gameStatusHandler={setGameStatus} />
+    {gameStatus === 'happy' && <div className="happy banner">
+  <p>
+    <strong>Congratulations!</strong> Got it in
+    <strong>3 guesses</strong>.
+  </p>
+</div>}
+    
+  </>)
 
 }
 

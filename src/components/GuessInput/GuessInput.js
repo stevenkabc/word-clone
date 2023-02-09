@@ -5,9 +5,9 @@ import {checkGuess} from "../../game-helpers"
 
 
 function GuessInput({answer}) {
-  
+  const [isMatch, setIsMatch] = React.useState(false);
   const [guess, setGuess] = React.useState('');
-  const [guessCount,setGuessCount] = React.useState(0)
+  const [guessCount,setGuessCount] = React.useState(0);
   const [guessList, setGuessList] = React.useState((() => {
      return Array(6).fill([
     { letter: ' ', status: '' },
@@ -27,11 +27,13 @@ function GuessInput({answer}) {
       window.alert('Enter exactly 5 characters')
       return
     }
-
-    if(guessCount === NUM_OF_GUESSES_ALLOWED ) {
-      window.alert("Maximum guesses already entered")
-      return
+    if(guess === answer){
+      setIsMatch(true);
+    } else if (guessCount === NUM_OF_GUESSES_ALLOWED ) {
+      setIsMatch(false)
     }
+       
+     
     // debugger;
     console.log(guess);
     const checkedGuess = checkGuess(guess,answer)
@@ -48,11 +50,11 @@ function GuessInput({answer}) {
 
 
   <>
-    <GuessList guessList={guessList} />
-    <form 
+    <GuessList guessList={guessList} />  
+     <form 
       className="guess-input-wrapper"
       onSubmit={submitHandler}
-    >
+     >
       <label htmlFor="guess-input">
       Enter guess:
         <input 
@@ -70,6 +72,22 @@ function GuessInput({answer}) {
         />
       </label>
     </form>
+    {isMatch  
+      && <div className="happy banner">
+          <p>
+            <strong>Congratulations!</strong> Got it in
+            <strong> {guessCount} guesses</strong>.
+          </p>
+         </div>
+    }
+    {!isMatch && guessCount === NUM_OF_GUESSES_ALLOWED &&
+    <div className="sad banner">
+          <p>
+            <strong>No match!</strong> 
+            <strong> Word is {answer} </strong>.
+          </p>
+         </div>
+    }
   </>
   )
 }
